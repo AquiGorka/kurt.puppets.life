@@ -1,27 +1,27 @@
-import Peer from 'peerjs';
-import config from '../config.js';
+import Peer from 'simple-peer'
+import { EventEmitter } from 'events'
 
-var connection,
-	nsajs = {
-		connect(id) {
-			if (id) {
-				return new Promise((resolve, reject) => {
-					//
-					var peer = new Peer({ key: config.peerjs.key });
-					//
-					connection = peer.connect(id);
-					connection.on('open', () => resolve() );
-				});
-			} else {
-				return Promise.reject('Puppet connect error: Please provide an id.');
-			}
-		},
-		send(data) {
-			if (connection) {
-				connection.send(data);
-			}
-			return this;
-		}
-	};
+class NSAJS extends EventEmitter {
+  constructor() {
+    super()
+    this.peer = new Peer({ trickle: false })
+    this.peer.on('connect', () => this.emit('connect'))
+  }
 
-export default nsajs;
+  connect(signal) {
+    if (signal) {
+      return new Promise((resolve, reject) => {
+        this.peer.on('signal', data => resolve(data))
+        this.peer.signal(signal)
+      })
+    } else {
+      return Promise.reject('Puppet connect error: Please provide the signal data.')
+    }
+  }
+
+  send(data) {
+    this.peer.send(JSON.stringify(data))
+  }
+}
+
+export default new NSAJS
