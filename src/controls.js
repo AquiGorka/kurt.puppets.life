@@ -18,6 +18,27 @@ const styles = {
     backgroundRepeat: 'no-repeat',
     backgroundSize: '150px 150px',
     backgroundPosition: 'center center'
+  },
+  id: {
+    wrap: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '400px',
+      width: '100%',
+      flexDirection: 'column',
+    },
+    title: {
+      fontSize: '5vw',
+      color: '#333'
+    },
+    id: {
+      marginTop: 20,
+      fontSize: '10vw',
+      color: '#777',
+      border: '1px solid #EEE',
+      padding: 20
+    }
   }
 }
 const googleUrl = new GoogleURL({ key: GOOGLE_APIKEY })
@@ -59,7 +80,14 @@ class Controls extends Component {
       content = <Puppeteer />
     }
     if (mode === CONNECT) {
-      content = <div>This is your ID: {this.state.id}</div>
+      content = <div style={styles.id.wrap}>
+        <div style={styles.id.title}>
+          This is your ID
+        </div>
+        <div style={styles.id.id}>
+          {this.state.id}
+        </div>
+      </div>
     }
     if (mode === ERROR) {
       content = <div>Error: {this.state.msg}</div>

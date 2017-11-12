@@ -19757,7 +19757,7 @@
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
 
 	var _react = __webpack_require__(2);
@@ -19789,20 +19789,41 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var styles = {
-		wrapper: {
-			background: '#FFF',
-			boxShadow: '0 0 10px 1px #CCC',
-			flexGrow: 1,
-			display: 'flex',
-			borderRadius: 5
-		},
-		loading: {
-			flexGrow: 1,
-			backgroundImage: 'url(./img/spinner.gif)',
-			backgroundRepeat: 'no-repeat',
-			backgroundSize: '150px 150px',
-			backgroundPosition: 'center center'
-		}
+	  wrapper: {
+	    background: '#FFF',
+	    boxShadow: '0 0 10px 1px #CCC',
+	    flexGrow: 1,
+	    display: 'flex',
+	    borderRadius: 5
+	  },
+	  loading: {
+	    flexGrow: 1,
+	    backgroundImage: 'url(./img/spinner.gif)',
+	    backgroundRepeat: 'no-repeat',
+	    backgroundSize: '150px 150px',
+	    backgroundPosition: 'center center'
+	  },
+	  id: {
+	    wrap: {
+	      display: 'flex',
+	      alignItems: 'center',
+	      justifyContent: 'center',
+	      height: '400px',
+	      width: '100%',
+	      flexDirection: 'column'
+	    },
+	    title: {
+	      fontSize: '5vw',
+	      color: '#333'
+	    },
+	    id: {
+	      marginTop: 20,
+	      fontSize: '10vw',
+	      color: '#777',
+	      border: '1px solid #EEE',
+	      padding: 20
+	    }
+	  }
 	};
 	var googleUrl = new _googleUrl2.default({ key: ("AIzaSyAk6LuX2cbKppS93MkVi9aTWVM_WwF1AtM") });
 	var PUPPETEER = 'p2p connected, start sending gyro data';
@@ -19811,84 +19832,92 @@
 	var NOID = 'no signal data was found';
 
 	var Controls = (function (_Component) {
-		_inherits(Controls, _Component);
+	  _inherits(Controls, _Component);
 
-		function Controls(props) {
-			_classCallCheck(this, Controls);
+	  function Controls(props) {
+	    _classCallCheck(this, Controls);
 
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Controls).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Controls).call(this, props));
 
-			_this.state = { status: null };
-			return _this;
-		}
+	    _this.state = { status: null };
+	    return _this;
+	  }
 
-		_createClass(Controls, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {
-				var _this2 = this;
+	  _createClass(Controls, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
 
-				var signal = atob((0, _qmark2.default)('signal'));
-				if (signal) {
-					_index2.default.connect(signal).then(function (data) {
-						googleUrl.shorten('' + location.origin + location.pathname + '?signal=' + btoa(JSON.stringify(data)), function (err, shortUrl) {
-							// remove the length of https://goo.gl/
-							var id = shortUrl.substr(15);
-							console.log(id);
-							_this2.setState({ mode: CONNECT, id: id });
-						});
-					}).catch(function (err) {
-						return _this2.setState({ mode: ERROR, msg: err });
-					});
-				} else {
-					this.setState({ mode: NOID, msg: '' });
-				}
-				_index2.default.on('connect', function () {
-					return _this2.setState({ mode: PUPPETEER });
-				});
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				var mode = this.state.mode;
+	      var signal = atob((0, _qmark2.default)('signal'));
+	      if (signal) {
+	        _index2.default.connect(signal).then(function (data) {
+	          googleUrl.shorten('' + location.origin + location.pathname + '?signal=' + btoa(JSON.stringify(data)), function (err, shortUrl) {
+	            // remove the length of https://goo.gl/
+	            var id = shortUrl.substr(15);
+	            console.log(id);
+	            _this2.setState({ mode: CONNECT, id: id });
+	          });
+	        }).catch(function (err) {
+	          return _this2.setState({ mode: ERROR, msg: err });
+	        });
+	      } else {
+	        this.setState({ mode: NOID, msg: '' });
+	      }
+	      _index2.default.on('connect', function () {
+	        return _this2.setState({ mode: PUPPETEER });
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var mode = this.state.mode;
 
-				var content = _react2.default.createElement('div', { style: styles.loading });
+	      var content = _react2.default.createElement('div', { style: styles.loading });
 
-				if (mode === PUPPETEER) {
-					content = _react2.default.createElement(_puppeteer2.default, null);
-				}
-				if (mode === CONNECT) {
-					content = _react2.default.createElement(
-						'div',
-						null,
-						'This is your ID: ',
-						this.state.id
-					);
-				}
-				if (mode === ERROR) {
-					content = _react2.default.createElement(
-						'div',
-						null,
-						'Error: ',
-						this.state.msg
-					);
-				}
-				if (mode === NOID) {
-					content = _react2.default.createElement(
-						'div',
-						null,
-						'Error: no theater'
-					);
-				}
+	      if (mode === PUPPETEER) {
+	        content = _react2.default.createElement(_puppeteer2.default, null);
+	      }
+	      if (mode === CONNECT) {
+	        content = _react2.default.createElement(
+	          'div',
+	          { style: styles.id.wrap },
+	          _react2.default.createElement(
+	            'div',
+	            { style: styles.id.title },
+	            'This is your ID'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { style: styles.id.id },
+	            this.state.id
+	          )
+	        );
+	      }
+	      if (mode === ERROR) {
+	        content = _react2.default.createElement(
+	          'div',
+	          null,
+	          'Error: ',
+	          this.state.msg
+	        );
+	      }
+	      if (mode === NOID) {
+	        content = _react2.default.createElement(
+	          'div',
+	          null,
+	          'Error: no theater'
+	        );
+	      }
 
-				return _react2.default.createElement(
-					'div',
-					{ style: styles.wrapper },
-					content
-				);
-			}
-		}]);
+	      return _react2.default.createElement(
+	        'div',
+	        { style: styles.wrapper },
+	        content
+	      );
+	    }
+	  }]);
 
-		return Controls;
+	  return Controls;
 	})(_react.Component);
 
 	exports.default = Controls;
@@ -20032,7 +20061,7 @@
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 	Object.defineProperty(exports, "__esModule", {
-		value: true
+	  value: true
 	});
 
 	var _simplePeer = __webpack_require__(166);
@@ -20050,44 +20079,44 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var NSAJS = (function (_EventEmitter) {
-		_inherits(NSAJS, _EventEmitter);
+	  _inherits(NSAJS, _EventEmitter);
 
-		function NSAJS() {
-			_classCallCheck(this, NSAJS);
+	  function NSAJS() {
+	    _classCallCheck(this, NSAJS);
 
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NSAJS).call(this));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NSAJS).call(this));
 
-			_this.peer = new _simplePeer2.default({ trickle: false });
-			_this.peer.on('connect', function () {
-				return _this.emit('connect');
-			});
-			return _this;
-		}
+	    _this.peer = new _simplePeer2.default({ trickle: false });
+	    _this.peer.on('connect', function () {
+	      return _this.emit('connect');
+	    });
+	    return _this;
+	  }
 
-		_createClass(NSAJS, [{
-			key: 'connect',
-			value: function connect(signal) {
-				var _this2 = this;
+	  _createClass(NSAJS, [{
+	    key: 'connect',
+	    value: function connect(signal) {
+	      var _this2 = this;
 
-				if (signal) {
-					return new Promise(function (resolve, reject) {
-						_this2.peer.on('signal', function (data) {
-							return resolve(data);
-						});
-						_this2.peer.signal(signal);
-					});
-				} else {
-					return Promise.reject('Puppet connect error: Please provide the signal data.');
-				}
-			}
-		}, {
-			key: 'send',
-			value: function send(data) {
-				this.peer.send(JSON.stringify(data));
-			}
-		}]);
+	      if (signal) {
+	        return new Promise(function (resolve, reject) {
+	          _this2.peer.on('signal', function (data) {
+	            return resolve(data);
+	          });
+	          _this2.peer.signal(signal);
+	        });
+	      } else {
+	        return Promise.reject('Puppet connect error: Please provide the signal data.');
+	      }
+	    }
+	  }, {
+	    key: 'send',
+	    value: function send(data) {
+	      this.peer.send(JSON.stringify(data));
+	    }
+	  }]);
 
-		return NSAJS;
+	  return NSAJS;
 	})(_events.EventEmitter);
 
 	exports.default = new NSAJS();
