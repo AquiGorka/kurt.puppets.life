@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+  - "node"
+git:
+  depth: 10
+branches:
+  only:
+    - master
+script:
+  - npm run build
+deploy:
+  provider: gcs
+  access_key_id: GOOGOXTPJ2JM4WHPFQXO
+  secret_access_key:
+    secure: PGSmeIlDOVwSdbXjJwly3tBJCO3ZxY/otwHYIkaGN6+UB3R/PeTyJb2NIjpmlvQ30VCyExTeKZYt/9q+xLAieDvOaNrFzazWCCAjF4NpTkzqo+j6IqEmDR6/4cFsM+sO9b6BnwuLv4xbwYy8Uni0gxMWhzCWgAxvlSa1UmJHxCtdTWwAFEV+3dwldeItMtG8wPLwQ9umIqTUBTeiIvehrrIfSTR+50mf1oJ/d285uamh2Xn8ULcjWWczcABQfhmw1oPbfZ6EiPUlv/2vPqXd3rukupGX0WY4mY+iUZ+HcYgwO3zU0E+B+V9pdnVLxOeVWfQKeLM956ofAbETWCZWHcEXNEoNScCz0fqBTAnvqSbaRu6+KFHn+OO2dGqXht3D5QRn8zrb545wNhvZeu7SYYyJaIn0PcY5DXo1+dMXQI7WWh/9CR7HnqaCNfRH3HCRDZlVhF2UE6K6n8afAc962mKe6qpeI3KCOTWJe34k047C1B9Wod59L1iLGBQ7x/ZZCzV3eGM4kXgasTkc0x+OjHq1D5a5mvrDdY434XFHddWnxifXUbHYu8lfsUQlIe6M0NmKuGgFz9boOE/s/BYLeC7J0ZlLSTs2rlQDTA1WveRLD//8PLFou/uZkl4oBFoVVHphVUvGVRwyOqheWnZL0YJdHfdjGFXXffl2O2Mu8iE=
+  bucket: kurt.puppets.life
+  local_dir: public
+  overwrite: true
+  acl: public-read
+  skip_cleanup: true
+  on:
+    repo: AquiGorka/kurt.puppets.life
+    branch: master
