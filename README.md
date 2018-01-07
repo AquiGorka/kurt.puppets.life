@@ -1,6 +1,6 @@
 # Kurt @ Puppets
 
-<img src="/static/kurt.png" heighth="300" alt="Kurt @ Puppets" />
+<img src="/static/kurt.png" height="600px" alt="Kurt @ Puppets" />
 
 # Dev
 
